@@ -5,17 +5,14 @@
 #include "var.h"
 using namespace std;
 
+struct Input {
+    vector<double> numbers;
+    size_t bin_count;
+};
+
 
 const size_t SCREEN_WIDTH = 80;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
-
-
-
-
-
-
-
-
 
 
 vector<double> input_numbers(istream& in, size_t count) {
@@ -27,12 +24,41 @@ vector<double> input_numbers(istream& in, size_t count) {
     return result;
 }
 
+Input read_input(istream& in) {
+
+    Input data;
+
+    cerr << "Enter number count: ";
+    size_t number_count;
+    in >> number_count;
+
+    cerr << "Enter numbers: ";
+    data.numbers = input_numbers(in, number_count);
+
+    cerr << "Enter bin count: ";
+    in >> data.bin_count;
+
+    return data;
+}
 
 
-vector<size_t> make_histogram(vector<double> numbers, size_t bin_count, double max, double min,size_t& bins_max)
+
+
+
+
+
+
+
+
+
+vector<size_t> make_histogram(vector<double> numbers, size_t bin_count,size_t& bins_max)
 {
     size_t number_count=numbers.size();
     vector<size_t> bins(bin_count);
+
+    double max;
+    double min;
+    find_minmax(numbers, min, max);
 
     double bin_size = (max - min) / bin_count;
     for (size_t i = 0; i < number_count; i++)
@@ -106,29 +132,35 @@ int main()
     size_t number_count;
     size_t bin_count;
 
-    cerr << "Enter numbers count: ";
-    cin >> number_count;
 
-    const auto numbers = input_numbers(cin,number_count);
-    double max;
+   // const auto numbers = input_numbers(cin,number_count);
+
+
+   Input data = read_input(cin);
+
+
+  /* double max;
     double min;
-    find_minmax(numbers, min, max);
+    find_minmax(data.numbers, min, max);
+*/
 
-    cerr << "Enter bin count: ";
-    cin >> bin_count;
+
+
+   // cerr << "Enter bin count: ";
+    //cin >> bin_count;
 
     //vector<size_t> bins(bin_count);
 
 
     size_t bins_max;
 
-    const auto bins = make_histogram(numbers,bin_count,max,min,bins_max);
+    const auto bins = make_histogram(data.numbers,data.bin_count,bins_max);
 
     //show_histogram_text(bins,bins_max);
-    vector<size_t> p;
-    percent(bins, number_count,p);
+   // vector<size_t> p;
+   // percent(bins, number_count,p);
 
-    show_histogram_svg(bins,bins_max,p);
+    show_histogram_svg(bins,bins_max);
 
 
 
