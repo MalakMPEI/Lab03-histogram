@@ -5,11 +5,11 @@
 #include "var.h"
 using namespace std;
 
-struct Input {
+/*struct Input {
     vector<double> numbers;
     size_t bin_count;
 };
-
+*/
 
 const size_t SCREEN_WIDTH = 80;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
@@ -51,25 +51,25 @@ Input read_input(istream& in) {
 
 
 
-vector<size_t> make_histogram(vector<double> numbers, size_t bin_count,size_t& bins_max)
+vector<size_t> make_histogram(Input data,size_t& bins_max)
 {
-    size_t number_count=numbers.size();
-    vector<size_t> bins(bin_count);
+    size_t number_count=data.numbers.size();
+    vector<size_t> bins(data.bin_count);
 
     double max;
     double min;
-    find_minmax(numbers, min, max);
+    find_minmax(data.numbers, min, max);
 
-    double bin_size = (max - min) / bin_count;
+    double bin_size = (max - min) / data.bin_count;
     for (size_t i = 0; i < number_count; i++)
     {
 
         bool found = false;
-        for (size_t j = 0; (j < bin_count - 1) && !found; j++)
+        for (size_t j = 0; (j < data.bin_count - 1) && !found; j++)
         {
             auto lo = min + j * bin_size;
             auto hi = min + (j + 1) * bin_size;
-            if ((lo <= numbers[i]) && (numbers[i] < hi))
+            if ((lo <= data.numbers[i]) && (data.numbers[i] < hi))
             {
                 bins[j]++;
                 found = true;
@@ -79,12 +79,12 @@ vector<size_t> make_histogram(vector<double> numbers, size_t bin_count,size_t& b
 
         if (!found)
         {
-            bins[bin_count - 1]++;
+            bins[data.bin_count - 1]++;
         }
 
     } // конец цикла по numbers
 bins_max = bins[0];
-    for (size_t i=0; i<bin_count; i++)
+    for (size_t i=0; i<data.bin_count; i++)
         {
              if (bins[i] > bins_max) bins_max = bins[i];
         }
@@ -154,7 +154,7 @@ int main()
 
     size_t bins_max;
 
-    const auto bins = make_histogram(data.numbers,data.bin_count,bins_max);
+    const auto bins = make_histogram(data,bins_max);
 
     //show_histogram_text(bins,bins_max);
    // vector<size_t> p;
