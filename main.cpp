@@ -24,18 +24,18 @@ vector<double> input_numbers(istream& in, size_t count) {
     return result;
 }
 
-Input read_input(istream& in) {
+Input read_input(istream& in, bool F) {
 
     Input data;
 
-    cerr << "Enter number count: ";
+    if (F) cerr << "Enter number count: ";
     size_t number_count;
     in >> number_count;
 
-    cerr << "Enter numbers: ";
+    if (F) cerr << "Enter numbers: ";
     data.numbers = input_numbers(in, number_count);
 
-    cerr << "Enter bin count: ";
+    if (F) cerr << "Enter bin count: ";
     in >> data.bin_count;
 
     return data;
@@ -51,7 +51,7 @@ Input read_input(istream& in) {
 
 
 
-vector<size_t> make_histogram(Input data,size_t& bins_max)
+vector<size_t> make_histogram(Input data)
 {
     size_t number_count=data.numbers.size();
     vector<size_t> bins(data.bin_count);
@@ -83,11 +83,6 @@ vector<size_t> make_histogram(Input data,size_t& bins_max)
         }
 
     } // конец цикла по numbers
-bins_max = bins[0];
-    for (size_t i=0; i<data.bin_count; i++)
-        {
-             if (bins[i] > bins_max) bins_max = bins[i];
-        }
 
     return bins;
 }
@@ -136,7 +131,7 @@ int main()
    // const auto numbers = input_numbers(cin,number_count);
 
 
-   Input data = read_input(cin);
+   Input data = read_input(cin,true);
 
 
   /* double max;
@@ -152,15 +147,15 @@ int main()
     //vector<size_t> bins(bin_count);
 
 
-    size_t bins_max;
+   // size_t bins_max;
 
-    const auto bins = make_histogram(data,bins_max);
+    const auto bins = make_histogram(data);
 
     //show_histogram_text(bins,bins_max);
    // vector<size_t> p;
    // percent(bins, number_count,p);
 
-    show_histogram_svg(bins,bins_max);
+    show_histogram_svg(bins);
 
 
 
