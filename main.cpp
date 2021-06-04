@@ -3,6 +3,7 @@
 #include "histogram.h"
 #include "svg.h"
 #include "var.h"
+#include <curl/curl.h>
 using namespace std;
 
 /*struct Input {
@@ -121,9 +122,16 @@ void show_histogram_text(vector<size_t> bins, size_t bins_max)
 
 
 
-int main()
+int main(int argc, char* argv[])
 {
+    if(argc>1)
+    {
+        cout<<argc<<endl;
+        for (int i=0;i<argc;i++) cout<<"argv ["<<i<<"] = "<<argv[i]<<endl;
+    return(0);
+    }
 
+    curl_global_init(CURL_GLOBAL_ALL);
     size_t number_count;
     size_t bin_count;
 
