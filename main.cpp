@@ -124,14 +124,37 @@ void show_histogram_text(vector<size_t> bins, size_t bins_max)
 
 int main(int argc, char* argv[])
 {
-    if(argc>1)
-    {
+    if(argc>1){
+    /*{
         cout<<argc<<endl;
         for (int i=0;i<argc;i++) cout<<"argv ["<<i<<"] = "<<argv[i]<<endl;
     return(0);
     }
+*/
+    CURL* curl = curl_easy_init();
+
+
 
     curl_global_init(CURL_GLOBAL_ALL);
+
+
+    if(curl) {
+        CURLcode res;
+        curl_easy_setopt(curl, CURLOPT_URL, argv[1]);
+        res = curl_easy_perform(curl);
+         if (res != 0) cout<<res;
+        curl_easy_cleanup(curl);
+}
+
+
+
+
+
+   return 0;
+    }
+
+
+
     size_t number_count;
     size_t bin_count;
 
@@ -168,7 +191,4 @@ int main(int argc, char* argv[])
 
 
 
-
-
-    return 0;
 }
