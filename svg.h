@@ -16,6 +16,8 @@ void svg_rect(double x, double y, double width, double height, string stroke, st
 
 void svg_text(double left, double baseline, string text);
 
-void show_histogram_svg(vector<size_t> bins, size_t bins_max);
+void show_histogram_svg(vector<size_t> bins,vector<size_t> p);
+
+int percent(vector<size_t> bins,size_t bin_count);
 
 #endif // SVG_H_INCLUDED
