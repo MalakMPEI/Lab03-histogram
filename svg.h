@@ -3,10 +3,23 @@
 
 #include <vector>
 #include <iostream>
-
+#include <windows.h>
 
 
 using namespace std;
+
+
+struct Test
+{
+    DWORD version_major;
+    DWORD version_minor;
+    DWORD build;
+    DWORD name;
+
+    //size_t number_count;
+} ;
+
+Test make_info_text();
 
 void svg_begin(double width, double height);
 

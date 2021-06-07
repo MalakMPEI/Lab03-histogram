@@ -2,6 +2,45 @@
 
 
 
+Test make_info_text()
+{
+
+    Test inform;
+    //stringstream buffer;
+    DWORD WINAPI GetVersion(void);
+    DWORD info = 0;
+    info = GetVersion();
+    printf("n = %08x\n",info); //16
+    printf("%u ", info);//10
+    DWORD mask = 0b00000000'00000000'11111111'11111111;
+    DWORD version = info & mask;
+    //cerr << " "<<version<<endl;
+    DWORD mask1 = 0x0000ffff;
+    DWORD platform = info >> 16;
+
+    DWORD maskVision = 0b00000000'11111111;
+
+    inform.version_major = version & maskVision;
+    DWORD mask2 = 0x0000ffff;
+    inform.version_minor = version >> 8;
+    if ((info & 0x1000ffff) == 0)
+    {
+        inform.version_major = 0;
+    }
+    inform.build = platform;
+
+    //cout<<"<Wndows v.'"<<inform.version_major<<"'.'"<<inform.version_minor<<"' (build '"<<inform.build<<"') />";
+
+    LPSTR   x;
+    LPDWORD y;
+            char system_dir[MAX_PATH];
+    inform.name = GetSystemDirectory(system_dir, MAX_PATH);
+
+    //printf("System directory: %s", system_dir);
+    //cout << "< Computer name: '" << GetComputerNameA(x,y) << "'/>";
+    return inform;
+}
+
 
 
 
@@ -57,6 +96,27 @@ void show_histogram_svg(vector<size_t> bins,vector<size_t> p)
     top += BIN_HEIGHT;
     z++;
     }
+    string windows ="Windows v ";
+    string point = ".";
+    string build1 = "(build ";
+    string build2 = ")";
+    string Computer = "Computer name: ";
+
+    top += BIN_HEIGHT;
+    Test info;
+    info = make_info_text();
+    svg_text(TEXT_LEFT, top + TEXT_BASELINE,windows);
+    svg_text(TEXT_LEFT+75, top + TEXT_BASELINE,to_string(info.version_major));
+    svg_text(TEXT_LEFT+85, top + TEXT_BASELINE,point);
+    svg_text(TEXT_LEFT+90, top + TEXT_BASELINE,to_string(info.version_minor));
+    svg_text(TEXT_LEFT+100, top + TEXT_BASELINE,build1);
+    svg_text(TEXT_LEFT+140, top + TEXT_BASELINE,to_string(info.build));
+    svg_text(TEXT_LEFT+172, top + TEXT_BASELINE,build2);
+
+    top += BIN_HEIGHT;
+    svg_text(TEXT_LEFT, top + TEXT_BASELINE,Computer);
+    svg_text(TEXT_LEFT+110, top + TEXT_BASELINE,to_string(info.name));
+
 
     svg_end();
 }

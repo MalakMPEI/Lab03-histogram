@@ -5,6 +5,7 @@
 #include <curl/curl.h>
 #include <sstream>
 #include <string>
+#include <windows.h>
 using namespace std;
 
 /*struct Input {
@@ -36,6 +37,8 @@ Input read_input(istream& in, bool F) {
 
     if (F) cerr << "Enter numbers: ";
     data.numbers = input_numbers(in, number_count);
+
+
 
     //if (F) cerr << "Enter bin count: ";
     //in >> data.bin_count;
@@ -121,18 +124,12 @@ void show_histogram_text(vector<size_t> bins, size_t bins_max)
 
 
 
-Input
-download(const string& address)
+Input download(const string& address)
 {
     stringstream buffer;
 
     CURL* curl = curl_easy_init();
-
-
-
     curl_global_init(CURL_GLOBAL_ALL);
-
-
     if(curl) {
         CURLcode res;
         curl_easy_setopt(curl, CURLOPT_URL, address);
@@ -141,10 +138,10 @@ download(const string& address)
          if (res != 0) cout<<res;
         curl_easy_cleanup(curl);
 }
-
-
     return read_input(buffer, false);
 }
+
+
 
 
 size_t write_data(void* items, size_t item_size, size_t item_count, void* ctx) {
@@ -176,34 +173,58 @@ void percent(vector<size_t> bins,Input data, vector<size_t> &p)
 }
 
 
-int main(size_t bin_count, int argc, char* argv[])
+
+
+BOOL GetComputerNameA
+(
+    LPSTR   lpBuffer,
+    LPDWORD nSize
+);
+
+
+
+int main(int argc, char* argv[])
 {
+
     Input data;
-    data.bin_count = bin_count;
-    if(argc>1)
+
+
+     //auto x = make_info_text();
+
+    if(argc>3)
     {
         data = download(argv[1]);
     }
     else
     {
-        data = read_input(cin,true);
+        data = read_input(cin,false);
     }
+     data.bin_count = 1;
 
+  for (int i=0; i<argc; i++)
+
+    {
+        // data.bin_count = 3;
+
+        if ((string)argv[i] == "-bins")
+        {
+    //data.bin_count = (size_t)argv[i+1];
+      //data.bin_count = static_cast<size_t>(*argv[i+1]);
+
+      data.bin_count = atoi(argv[i+1]);
+        }
+
+    }
 
 /*
     size_t number_count;
     size_t bin_count;
     */
+
+
+
     const auto bins = make_histogram(data);
     vector<size_t> p;
     percent(bins,data,p);
-
-
-
     show_histogram_svg(bins,p);
-
-
-
-
-
 }

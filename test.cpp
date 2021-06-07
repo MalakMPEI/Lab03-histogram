@@ -1,5 +1,5 @@
 #include "histogram.h"
-
+#include "var.h"
 #include <cassert>
 
 
@@ -49,12 +49,33 @@ test_empty() {
     assert(max == max);
 }
 
-int main()
+
+
+
+
+
+
+
+
+void test_var_one()
 {
+    vector<size_t> p;
+    //p.resize(10);
+    percent({10},10, p);
+    assert(p[0] == 100);
+
+
+}
+
+int main()
+{   /*
      test_positive();
      test_negative();
      test_identical();
      test_one();
      test_empty();
+     */
+
+     test_var_one();
 
 }
