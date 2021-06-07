@@ -189,8 +189,6 @@ int main(int argc, char* argv[])
     Input data;
 
 
-     //auto x = make_info_text();
-
     if(argc>3)
     {
         data = download(argv[1]);
@@ -198,6 +196,7 @@ int main(int argc, char* argv[])
     else
     {
         data = read_input(cin,false);
+
     }
      data.bin_count = 1;
 
@@ -215,6 +214,7 @@ int main(int argc, char* argv[])
         }
 
     }
+
 
 /*
     size_t number_count;

@@ -113,6 +113,7 @@ void show_histogram_svg(vector<size_t> bins,vector<size_t> p)
     svg_text(TEXT_LEFT+140, top + TEXT_BASELINE,to_string(info.build));
     svg_text(TEXT_LEFT+172, top + TEXT_BASELINE,build2);
 
+
     top += BIN_HEIGHT;
     svg_text(TEXT_LEFT, top + TEXT_BASELINE,Computer);
     svg_text(TEXT_LEFT+110, top + TEXT_BASELINE,to_string(info.name));
