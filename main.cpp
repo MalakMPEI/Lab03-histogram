@@ -47,15 +47,6 @@ Input read_input(istream& in, bool F) {
 }
 
 
-
-
-
-
-
-
-
-
-
 vector<size_t> make_histogram(Input data)
 {
     size_t number_count=data.numbers.size();
@@ -122,6 +113,19 @@ void show_histogram_text(vector<size_t> bins, size_t bins_max)
 
 }
 
+size_t write_data(void* items, size_t item_size, size_t item_count, void* ctx) {
+
+
+    size_t data_size = item_size * item_count;
+
+    stringstream* buffer = reinterpret_cast<stringstream*>(ctx);
+    buffer->write(reinterpret_cast<const char*>(items), data_size);
+
+    return (data_size);
+
+    return data_size;
+}
+
 
 
 Input download(const string& address)
@@ -129,35 +133,24 @@ Input download(const string& address)
     stringstream buffer;
 
     CURL* curl = curl_easy_init();
-    curl_global_init(CURL_GLOBAL_ALL);
-    if(curl) {
-        CURLcode res;
-        curl_easy_setopt(curl, CURLOPT_URL, address);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
-        res = curl_easy_perform(curl);
-         if (res != 0) cout<<res;
-        curl_easy_cleanup(curl);
+    //curl_global_init(CURL_GLOBAL_ALL);
+    //
+    if(curl)
+{
+
+    CURLcode res;
+    curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
+    res = curl_easy_perform(curl);
+    if (res != 0) cout<<res;
+    curl_easy_cleanup(curl);
 }
     return read_input(buffer, false);
 }
 
 
 
-
-size_t write_data(void* items, size_t item_size, size_t item_count, void* ctx) {
-
-
-    auto data_size = item_size * item_count;
-
-   // stringstream* buffer = reinterpret_cast<stringstream*>(ctx);
-
-    //static_cast<const char*>(*buffer).write(items, data_size);
-
-    stringstream* buffer = reinterpret_cast<stringstream*>(ctx);
-    (*buffer).write(reinterpret_cast<char*>(&items), data_size);
-
-    return (data_size);
-}
 
 
 void percent(vector<size_t> bins,Input data, vector<size_t> &p)
@@ -191,7 +184,7 @@ int main(int argc, char* argv[])
 
     if(argc>3)
     {
-        data = download(argv[1]);
+        data = download(argv[3]);
     }
     else
     {
@@ -200,9 +193,11 @@ int main(int argc, char* argv[])
     }
      data.bin_count = 1;
 
+//cout<< argc<<endl;
   for (int i=0; i<argc; i++)
 
     {
+      //  cout<<argv[i]<<" = "<<i<<endl;
         // data.bin_count = 3;
 
         if ((string)argv[i] == "-bins")
