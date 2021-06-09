@@ -34,6 +34,7 @@ Test make_info_text()
     LPSTR   x;
     LPDWORD y;
             char system_dir[MAX_PATH];
+    //inform.name =(DWORD)GetComputerNameA(system_dir, MAX_PATH)
     inform.name = GetSystemDirectory(system_dir, MAX_PATH);
 
     //printf("System directory: %s", system_dir);
@@ -84,10 +85,34 @@ void show_histogram_svg(vector<size_t> bins,vector<size_t> p)
     double top = 0;
     int z=0;
     string per = "%";
+
+
+
+
+
+
+
+
     for (size_t bin : bins)
     {
 
     const double bin_width = BLOCK_WIDTH * bin;
+
+
+
+/*
+    size_t bin_max = 0;
+    for(int i = 0; i<bins.size();i++)
+    {
+
+
+        if (bins[i]>bin_max) bin_max = bins[i];
+    }
+
+    if (bin_max>(76-5)) bin_width = (76 - 5)*(static_cast<double>(bin) / bins_max)
+
+*/
+
     svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
     svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT,"red","#ffeeee");
 

@@ -80,6 +80,11 @@ vector<size_t> make_histogram(Input data)
 
     } // конец цикла по numbers
 
+
+
+
+
+
     return bins;
 }
 
@@ -192,32 +197,15 @@ int main(int argc, char* argv[])
 
     }
      data.bin_count = 1;
-
-//cout<< argc<<endl;
   for (int i=0; i<argc; i++)
 
     {
-      //  cout<<argv[i]<<" = "<<i<<endl;
-        // data.bin_count = 3;
-
         if ((string)argv[i] == "-bins")
         {
-    //data.bin_count = (size_t)argv[i+1];
-      //data.bin_count = static_cast<size_t>(*argv[i+1]);
-
       data.bin_count = atoi(argv[i+1]);
         }
 
     }
-
-
-/*
-    size_t number_count;
-    size_t bin_count;
-    */
-
-
-
     const auto bins = make_histogram(data);
     vector<size_t> p;
     percent(bins,data,p);

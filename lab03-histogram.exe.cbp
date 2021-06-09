@@ -36,14 +36,17 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="C:/Users/Андрей/Desktop/lab03-histogram/curl/include" />
 		</Compiler>
+		<Linker>
+			<Add library="libcurl.dll.a" />
+			<Add directory="C:/Users/Андрей/Desktop/lab03-histogram/curl/lib" />
+		</Linker>
 		<Unit filename="histogram.cpp" />
 		<Unit filename="histogram.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="svg.cpp" />
 		<Unit filename="svg.h" />
-		<Unit filename="var.cpp" />
-		<Unit filename="var.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
